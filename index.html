@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Study Vault | Complete Subject Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">◉</span>
+                <h1>Study Vault</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge" id="globalStats">0 / 0 completed</div>
+                <div class="date-display" id="liveDate"></div>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-grid">
+            <!-- Left Sidebar: Subject Navigation -->
+            <aside class="subject-sidebar">
+                <div class="sidebar-header">
+                    <h3>Subjects</h3>
+                    <button id="resetAllBtn" class="reset-all-btn">Reset All</button>
+                </div>
+                <div class="subject-list" id="subjectList">
+                    <!-- dynamic subject nav -->
+                </div>
+                <div class="sidebar-footer">
+                    <p>Click on any subject to view chapters</p>
+                </div>
+            </aside>
+
+            <!-- Right Content: Chapter List for Selected Subject -->
+            <main class="content-area">
+                <div class="subject-title-bar" id="subjectTitleBar">
+                    <h2 id="currentSubjectName">Physics 1st Paper</h2>
+                    <div class="subject-progress" id="subjectProgress">
+                        <div class="progress-bar-bg">
+                            <div class="progress-fill" id="subjectProgressFill"></div>
+                        </div>
+                        <span id="subjectProgressText">0%</span>
+                    </div>
+                </div>
+                
+                <div class="chapters-container" id="chaptersContainer">
+                    <!-- chapter list will be injected here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Daily Schedule Reference -->
+        <div class="schedule-footer">
+            <div class="schedule-block">
+                <div class="schedule-item"><span class="time">17:00 - 18:00</span><span>Physics · quick practice</span></div>
+                <div class="schedule-item"><span class="time">18:00 - 23:00</span><span>Mathematics · deep work (5h with breaks)</span></div>
+                <div class="schedule-item"><span class="time">Afternoon</span><span>Botany (April) → Zoology (May)</span></div>
+                <div class="schedule-item"><span class="time">Post-Asr</span><span>ICT revision · light session</span></div>
+                <div class="schedule-item"><span class="time">Night</span><span>Chemistry · exclusive</span></div>
+            </div>
+            <div class="note-text">15-day math sprint: complete 10 chapters · break integration · persistent progress</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
