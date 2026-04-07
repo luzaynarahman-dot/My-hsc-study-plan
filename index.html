@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Study Vault | Complete Subject Tracker</title>
+    <title>Study Bee | Complete Study Suite</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
+        <!-- Header with stylish glass effect -->
         <div class="header">
-            <div class="logo">
-                <span class="logo-icon">◉</span>
-                <h1>Study Vault</h1>
+            <div class="logo-area">
+                <button id="menuToggleBtn" class="menu-toggle" aria-label="Settings">≡</button>
+                <div class="logo-icon">S</div>
+                <h1>Study Bee</h1>
             </div>
             <div class="header-stats">
                 <div class="stat-badge" id="globalStats">0 / 0 completed</div>
@@ -21,50 +22,253 @@
             </div>
         </div>
 
-        <!-- Main Layout -->
-        <div class="main-grid">
-            <!-- Left Sidebar: Subject Navigation -->
-            <aside class="subject-sidebar">
-                <div class="sidebar-header">
-                    <h3>Subjects</h3>
-                    <button id="resetAllBtn" class="reset-all-btn">Reset All</button>
-                </div>
-                <div class="subject-list" id="subjectList">
-                    <!-- dynamic subject nav -->
-                </div>
-                <div class="sidebar-footer">
-                    <p>Click on any subject to view chapters</p>
-                </div>
-            </aside>
+        <div class="creator-credit">Created by Luzayna Rahman </div>
 
-            <!-- Right Content: Chapter List for Selected Subject -->
-            <main class="content-area">
-                <div class="subject-title-bar" id="subjectTitleBar">
-                    <h2 id="currentSubjectName">Physics 1st Paper</h2>
-                    <div class="subject-progress" id="subjectProgress">
-                        <div class="progress-bar-bg">
-                            <div class="progress-fill" id="subjectProgressFill"></div>
-                        </div>
-                        <span id="subjectProgressText">0%</span>
-                    </div>
-                </div>
-                
-                <div class="chapters-container" id="chaptersContainer">
-                    <!-- chapter list will be injected here -->
-                </div>
-            </main>
+        <!-- Main Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="subjects">Subjects</button>
+            <button class="tab-btn" data-tab="routine">Routine</button>
+            <button class="tab-btn" data-tab="tools">Tools</button>
         </div>
 
-        <!-- Daily Schedule Reference -->
-        <div class="schedule-footer">
-            <div class="schedule-block">
-                <div class="schedule-item"><span class="time">17:00 - 18:00</span><span>Physics · quick practice</span></div>
-                <div class="schedule-item"><span class="time">18:00 - 23:00</span><span>Mathematics · deep work (5h with breaks)</span></div>
-                <div class="schedule-item"><span class="time">Afternoon</span><span>Botany (April) → Zoology (May)</span></div>
-                <div class="schedule-item"><span class="time">Post-Asr</span><span>ICT revision · light session</span></div>
-                <div class="schedule-item"><span class="time">Night</span><span>Chemistry · exclusive</span></div>
+        <!-- Subjects Tab -->
+        <div class="tab-content active" id="subjects-tab">
+            <div class="subject-tabs-container">
+                <div class="subject-tabs-scroll" id="subjectTabsScroll">
+                    <div class="subject-tabs" id="subjectTabs"></div>
+                </div>
+                <button id="addSubjectBtn" class="add-subject-btn" title="Add Custom Subject">+</button>
             </div>
-            <div class="note-text">15-day math sprint: complete 10 chapters · break integration · persistent progress</div>
+
+            <div class="chapter-area">
+                <div class="chapter-header">
+                    <h2 id="currentSubjectName">Loading...</h2>
+                    <div class="chapter-header-actions">
+                        <div class="subject-progress" id="subjectProgress">
+                            <div class="progress-bar-bg">
+                                <div class="progress-fill" id="subjectProgressFill"></div>
+                            </div>
+                            <span id="subjectProgressText">0%</span>
+                        </div>
+                        <button id="addChapterBtn" class="add-chapter-btn">+ Add Chapter</button>
+                        <button id="editSubjectBtn" class="edit-subject-btn" style="display: none;">Edit Name</button>
+                    </div>
+                </div>
+                <div class="chapters-container" id="chaptersContainer">
+                    <div class="empty-chapters">Select a subject to view chapters</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Routine Tab -->
+        <div class="tab-content" id="routine-tab">
+            <div class="routine-panel">
+                <div class="routine-header">
+                    <h2>Daily Routine</h2>
+                    <div class="routine-controls">
+                        <button id="addTimeBlockBtn" class="action-btn-small">Add Time Block</button>
+                        <button id="exportRoutineBtn" class="action-btn-small">Export Routine</button>
+                        <button id="importRoutineBtn" class="action-btn-small">Import Routine</button>
+                        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                    </div>
+                </div>
+                <div class="routine-list" id="routineList"></div>
+                <div class="routine-note">
+                    Click on any time block to edit. Drag the dots to reorder. Changes save automatically.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools Tab -->
+        <div class="tab-content" id="tools-tab">
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>Pomodoro Timer</h3>
+                    <div class="timer-mode-selector">
+                        <button class="timer-mode-btn active" data-mode="25">25 min</button>
+                        <button class="timer-mode-btn" data-mode="50">50 min</button>
+                        <button class="timer-mode-btn" data-mode="5">5 min break</button>
+                    </div>
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-controls">
+                        <button id="startTimerBtn" class="timer-btn start">Start</button>
+                        <button id="pauseTimerBtn" class="timer-btn pause">Pause</button>
+                        <button id="resetTimerBtn" class="timer-btn reset">Reset</button>
+                    </div>
+                    <div class="timer-note">When timer ends, take a short break</div>
+                </div>
+
+                <div class="tool-card">
+                    <h3>Daily Goal</h3>
+                    <div class="daily-goal-container">
+                        <div class="progress-ring-container">
+                            <canvas id="progressRing" width="120" height="120"></canvas>
+                            <div class="ring-percentage" id="ringPercentage">0%</div>
+                        </div>
+                        <div class="goal-input-area">
+                            <label>Today's target (chapters)</label>
+                            <input type="number" id="dailyGoalInput" min="1" max="20" value="3" class="goal-input">
+                            <div class="today-completed" id="todayCompleted">0 chapters done today</div>
+                            <button id="resetDailyGoalBtn" class="small-btn">Reset Today</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card notes-card">
+                    <h3>Quick Notes</h3>
+                    <textarea id="quickNotes" placeholder="Write your reminders, formulas to review, or tasks here..." rows="6"></textarea>
+                    <div class="notes-footer">
+                        <span>Auto-saved</span>
+                        <button id="clearNotesBtn" class="small-btn">Clear</button>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3>Share Progress</h3>
+                    <div class="share-stats" id="shareStats">
+                        <div class="share-stat-item">Total Chapters: <span id="shareTotal">0</span></div>
+                        <div class="share-stat-item">Completed: <span id="shareCompleted">0</span></div>
+                        <div class="share-stat-item">Completion: <span id="sharePercent">0%</span></div>
+                    </div>
+                    <button id="shareProgressBtn" class="share-btn">Share My Progress</button>
+                    <div id="shareMessage" class="share-message"></div>
+                </div>
+
+                <div class="tool-card">
+                    <h3>Exam Routine 2026</h3>
+                    <p class="exam-info">HSC Exam Routine Reference</p>
+                    <button id="viewExamRoutineBtn" class="action-btn-small">View Routine</button>
+                </div>
+
+                <div class="tool-card">
+                    <h3>Backup & Restore</h3>
+                    <p class="exam-info">Export all your subjects, chapters, and progress</p>
+                    <button id="exportAllDataBtn" class="action-btn-small">Export All Data</button>
+                    <button id="importAllDataBtn" class="action-btn-small" style="margin-top: 8px;">Import Data</button>
+                    <input type="file" id="importAllDataInput" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div id="sidePanel" class="side-panel">
+        <div class="panel-header">
+            <h3>Settings</h3>
+            <button id="closePanelBtn" class="close-panel">×</button>
+        </div>
+        <div class="panel-content">
+            <div class="theme-section">
+                <h4>Theme</h4>
+                <div class="theme-options">
+                    <button class="theme-option" data-theme="ocean">
+                        <span class="theme-preview ocean"></span>
+                        <span>Ocean Breeze</span>
+                    </button>
+                    <button class="theme-option" data-theme="forest">
+                        <span class="theme-preview forest"></span>
+                        <span>Forest Calm</span>
+                    </button>
+                    <button class="theme-option" data-theme="sunset">
+                        <span class="theme-preview sunset"></span>
+                        <span>Sunset Warm</span>
+                    </button>
+                    <button class="theme-option" data-theme="purple">
+                        <span class="theme-preview purple"></span>
+                        <span>Purple Dusk</span>
+                    </button>
+                    <button class="theme-option" data-theme="silver">
+                        <span class="theme-preview silver"></span>
+                        <span>Silver Minimal</span>
+                    </button>
+                    <button class="theme-option" data-theme="dark">
+                        <span class="theme-preview dark"></span>
+                        <span>Dark Mode</span>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <p>Study Bee v2.0</p>
+            </div>
+        </div>
+    </div>
+    <div id="panelOverlay" class="panel-overlay"></div>
+
+    <!-- Modals (same as before) -->
+    <div id="editChapterModal" class="modal">
+        <div class="modal-content small-modal">
+            <span class="modal-close">&times;</span>
+            <h3>Edit Chapter Name</h3>
+            <input type="text" id="editChapterInput" class="modal-input" placeholder="Chapter name">
+            <div class="modal-buttons">
+                <button id="saveChapterEditBtn" class="modal-btn save">Save</button>
+                <button id="cancelChapterEditBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editSubjectModal" class="modal">
+        <div class="modal-content small-modal">
+            <span class="modal-close">&times;</span>
+            <h3>Edit Subject Name</h3>
+            <input type="text" id="editSubjectInput" class="modal-input" placeholder="Subject name">
+            <div class="modal-buttons">
+                <button id="saveSubjectEditBtn" class="modal-btn save">Save</button>
+                <button id="cancelSubjectEditBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addSubjectModal" class="modal">
+        <div class="modal-content small-modal">
+            <span class="modal-close">&times;</span>
+            <h3>Add New Subject</h3>
+            <input type="text" id="addSubjectInput" class="modal-input" placeholder="Subject name">
+            <div class="modal-buttons">
+                <button id="confirmAddSubjectBtn" class="modal-btn save">Add</button>
+                <button id="cancelAddSubjectBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addChapterModal" class="modal">
+        <div class="modal-content small-modal">
+            <span class="modal-close">&times;</span>
+            <h3>Add New Chapter</h3>
+            <input type="text" id="addChapterInput" class="modal-input" placeholder="Chapter name">
+            <div class="modal-buttons">
+                <button id="confirmAddChapterBtn" class="modal-btn save">Add</button>
+                <button id="cancelAddChapterBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="examModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>HSC Exam Routine 2026</h3>
+            <div class="exam-image-container">
+                <img src="hsc-routine.jpg" alt="HSC Exam Routine 2026" id="examRoutineImage" onerror="this.style.display='none'; document.getElementById('fallbackTable').style.display='block';">
+                <div id="fallbackTable" class="exam-routine-table" style="display: none;">
+                    <table>
+                        <thead><tr><th>Date</th><th>Subject</th><th>Paper</th></tr></thead>
+                        <tbody>
+                            <tr><td>April 2, 2026</td><td>Bengali</td><td>1st Paper</td></tr>
+                            <tr><td>April 4, 2026</td><td>Bengali</td><td>2nd Paper</td></tr>
+                            <tr><td>April 6, 2026</td><td>English</td><td>1st & 2nd Paper</td></tr>
+                            <tr><td>April 9, 2026</td><td>Physics</td><td>1st Paper</td></tr>
+                            <tr><td>April 11, 2026</td><td>Physics</td><td>2nd Paper</td></tr>
+                            <tr><td>April 13, 2026</td><td>Chemistry</td><td>1st Paper</td></tr>
+                            <tr><td>April 15, 2026</td><td>Chemistry</td><td>2nd Paper</td></tr>
+                            <tr><td>April 18, 2026</td><td>Mathematics</td><td>1st Paper</td></tr>
+                            <tr><td>April 20, 2026</td><td>Mathematics</td><td>2nd Paper</td></tr>
+                            <tr><td>April 23, 2026</td><td>Biology</td><td>1st & 2nd Paper</td></tr>
+                            <tr><td>April 25, 2026</td><td>ICT</td><td>1st Paper</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="modal-note">Place your official routine image as "hsc-routine.jpg" in the same folder.</p>
         </div>
     </div>
 
